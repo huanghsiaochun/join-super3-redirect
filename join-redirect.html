@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>跳轉中...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="2;url=#">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Roboto', sans-serif;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .loading {
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <h1>正在前往報名頁面...</h1>
+  <div class="loading">請稍候，若未自動跳轉，請 <a id="manualLink" href="#">點此</a></div>
+
+  <script>
+    // 設定 Google Script 目標網址
+    const baseUrl = "https://script.google.com/macros/s/AKfycbwxZpFel1af0z0xiivj7nkSdetMFZSDUfh_FbU79cc_MBp7QixenbuEJ8L5SReEeI9a/exec";
+    
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    if (id) {
+      const target = `${baseUrl}?id=${encodeURIComponent(id)}`;
+      document.getElementById("manualLink").href = target;
+      document.querySelector('meta[http-equiv="refresh"]').setAttribute('content', `1;url=${target}`);
+      window.location.replace(target); // 即時跳轉
+    } else {
+      document.querySelector('h1').textContent = "⚠️ 無效的 ID 參數";
+    }
+  </script>
+</body>
+</html>
